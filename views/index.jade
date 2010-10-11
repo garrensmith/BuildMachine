@@ -1,8 +1,8 @@
-h1= title
-p Welcome to #{title}
 div.main
-  form#url
+  h1= title
+  p Welcome to #{title}
+  form#url(method="post", action="/url")
     label Git url:
-      input#git_url(type="text")
+      input#git_url(type="text",name="git_url")
     br
-    input(type="button", value="Run")
+    input(type="submit", value="Run")
