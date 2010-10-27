@@ -24,8 +24,6 @@ spawnMock_stderr.on = function(eventName, fn) {
   this.eventName = eventName;
 };
 
-
-
 spawnMock.stdout = spawnMock_stdout;
 spawnMock.stderr = spawnMock_stderr; 
 
@@ -60,24 +58,3 @@ describe("Std out setup").
 
   });
 
-
-
-/*  it("Should create child process", function () {
-    var mockCalled = false;
-
-    spawnMock = function(cmd, args, options) {
-    cmd.should().beEqual(cmd);
-    args.should().contain('default');
-    options.cwd.should().beEqual(directory);
-    }
-
-    rake.run("directory");
-    mockCalled.should().beTrue();
-    });
-
-    describe("Failed Command").
-    it("Should return error", function () {
-//pending
-var num = 1;
-num.should().beEqual(2);
-});*/

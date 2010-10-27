@@ -1,19 +1,68 @@
-/*var git_cmd_mock = function(){};
-git_cmd_mock.on = function(data,cb){};
-git_cmd_mock.stdout = function(){};
-git_cmd_mock.stdout.on = function(data, cb){};
-git_cmd_mock.stderr = function(){};
-git_cmd_mock.stderr.on = function(data, cb){};
+var describe = require('spec_my_node').describe,
+    child_process = require('child_process'),
+    inspect = require('sys').inspect;
 
-var spawn_opt = "";
- var spawn = function(cmd,arg,opt){
-      var arg = arg;
-      spawn_opt = opt;
-     return git_cmd_mock;   
-  }
+ var spawn = child_process.spawn = function(cmd,arg,opt){
+      spawn.arg = arg;
+      spawn.opt = opt;
+      spawn.cmd = cmd;
+      spawn.onEventName;
+      spawn.stdoutEventName;
+      spawn.stderrEventName;
 
-require('child_process').spawn = spawn;
-var git = require('./git');
+      spawn.on = function (eventName) {
+        spawn.onEventName = eventName;
+        return spawn;
+      };
+      
+      spawn.stdout = function () {
+        
+      }
+
+      spawn.stdout.on = function (eventName) {
+        spawn.stdoutEventName = eventName
+      }; 
+
+      spawn.stderr = function () {
+        
+      }
+
+      spawn.stderr.on = function (eventName) {
+        spawn.stderrEventName = eventName
+      }; 
+
+
+      return spawn;
+  };
+
+var git = require('../lib/git');
+
+describe('Child process').
+  it("Should be called with git command", function () {
+      git.clone("","", "");
+      
+      spawn.cmd.should().beEqual('git');
+
+  }).
+  it("Should setup exit event", function () {
+    git.clone("","", function () {});
+  
+    spawn.onEventName.should().beEqual('exit');
+  });
+
+describe('Outputs').
+  it("Should register for stdout event", function () {
+     git.clone("","", "");
+
+     spawn.stdoutEventName.should().beEqual('data');
+  }).
+  it("Should register for stderr event", function () {
+     git.clone("","", "");
+
+     spawn.stderrEventName.should().beEqual('data');
+  });
+
+/*
 
 exports['Should create path if specified'] = function(assert){
   git.clone("","my_path/",function(){}); 
@@ -32,17 +81,9 @@ exports['Should Report Error If Failure'] = function(assert){
   git.clone("","",function(error){
   assert.equal(error, "fatal: could not create work tree dir ''.: No such file or directory\n");    
   });
-};
+};*/
 
 
-exports['Should initialise a new repo and return git object'] = function(assert){
-  git.repo("path/to/repo");
-};
-
-exports['Should get the commits for a repo'] = function(assert){
-  var commits = git.commits();
-  assert.length(commits, 4);
-});*/
 
 
 
