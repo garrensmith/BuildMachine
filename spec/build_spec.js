@@ -5,23 +5,16 @@ var buildServer = require('../lib/buildServer');
 var git = require('../lib/git'); 
 var rake = require('../lib/rake');
 
-//create temp directory
+//create temp directory == random dir
 //clone into
 //run spec
-
-
-
-/*describe("Build Server with git url").
-  it("Should create tmp directory", function () {
-    var date = new Date();
-    var tempFolder = 'tempFolder-' + date.getTime().toString(); 
-    mkdir(process.cwd() + '/spec/tmp/' + tempFolder);
+/*describe('Folder creation').
+  it("Should ..", function () {
+    var folderPath = buildServer.createTempFolderName("git://github.com/garrensmith/RoRTodo.git");
     
-    var files = fs.readdirSync(process.cwd() + '/spec/tmp');
-    console.log(files);
-    
-    files.should().contain(tempFolder);     
-  });*/
+    folderPath.should().beEqual(process.cwd() + '/tmp/' + 'RoRTodo');
+
+  });
 
 describe('Folder creation').
   it('Should generate folder with date stamp', function (onCallBack) {
@@ -31,7 +24,6 @@ describe('Folder creation').
       var files = fs.readdirSync(process.cwd()  + '/tmp');
       files.should().contain('testDir');
     });
-
   });
 
 
@@ -58,5 +50,12 @@ describe("Build code").
     buildServer.runRake("directory");
 
     methodCalled.should().beTrue;
+  });
+*/
+
+describe("Build Server").
+  it("Should run", function () {
+    buildServer.execBuild("/Users/garren/WebDev/ToDo/");
+    //rake.run("/Users/garren/WebDev/ToDo/");
   });
 
