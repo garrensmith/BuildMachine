@@ -1,6 +1,7 @@
 var describe = require('Spec_My_Node').describe;
 var fs = require('fs');
 var childProcess = require('child_process');
+var buildServer = require('../lib/buildServer');
 var git = require('../lib/git'); 
 var rake = require('../lib/rake');
 
@@ -8,25 +9,7 @@ var rake = require('../lib/rake');
 //clone into
 //run spec
 
-function mkdir(path, fn) {
-    childProcess.exec('mkdir -p ' + path, function(err){
-        if (err) {
-          console.log(err);
-          throw err;
-        }
-        console.log('   create : ' + path);
-        fn && fn();
-    });
-}
 
-var buildServer = function() {};
-buildServer.cloneSourceCode = function(url, directory, cb) {
-  git.clone(url,directory, cb);
-};
-
-buildServer.runRake = function (directory) {
-  rake.run(directory);
-}
 
 /*describe("Build Server with git url").
   it("Should create tmp directory", function () {
@@ -39,6 +22,17 @@ buildServer.runRake = function (directory) {
     
     files.should().contain(tempFolder);     
   });*/
+
+describe('Folder creation').
+  it('Should generate folder with date stamp', function (onCallBack) {
+    buildServer.mkdir(process.cwd() + '/tmp'+ "/testDir");
+    
+    onCallBack( function () {
+      var files = fs.readdirSync(process.cwd()  + '/tmp');
+      files.should().contain('testDir');
+    });
+
+  });
 
 
 describe("Acquire Source Code").
