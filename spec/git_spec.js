@@ -74,27 +74,6 @@ describe('Clone inputs').
 
   });
 
-/*
-
-exports['Should create path if specified'] = function(assert){
-  git.clone("","my_path/",function(){}); 
-  assert.equal(spawn_opt.cwd,"my_path/");
-};
-
-exports['Should create default path'] = function(assert){
-  console.log(require('sys').inspect(spawn));
-
-  git.clone("","",function(){});  
-  assert.equal(spawn_opt.cwd,"tmp/");
-
-};
-
-exports['Should Report Error If Failure'] = function(assert){
-  git.clone("","",function(error){
-  assert.equal(error, "fatal: could not create work tree dir ''.: No such file or directory\n");    
-  });
-};*/
-
 
 
 
