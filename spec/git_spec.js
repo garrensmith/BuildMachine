@@ -48,8 +48,8 @@ describe('Child process').
     git.clone("","", function () {});
   
     spawn.onEventName.should().beEqual('exit');
-  });
-
+  }).
+ 
 describe('Outputs').
   it("Should register for stdout event", function () {
      git.clone("","", "");
@@ -58,8 +58,20 @@ describe('Outputs').
   }).
   it("Should register for stderr event", function () {
      git.clone("","", "");
-
      spawn.stderrEventName.should().beEqual('data');
+  });
+
+describe('Clone inputs').
+  it("Should add clone directory if specified", function () {
+    git.clone("url","clone directory","folderName", function () {});
+
+    spawn.arg.should().contain("folderName");
+  }).
+  it("Should ignore clone folder if ignores", function () {
+    git.clone("url","clone directory",function () {});
+
+    spawn.arg.length.should().beEqual(2);
+
   });
 
 /*
