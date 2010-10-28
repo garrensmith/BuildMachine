@@ -1,8 +1,23 @@
-div.main
-  h1= title
-  p Welcome to #{title}
-  form#url(method="post", action="/url")
-    label Git url:
-      input#git_url(type="text",name="git_url")
-    br
-    input(type="submit", value="Run")
+#wrapper
+  div#seperator
+    span.button Build!
+  #text_center 
+    h1 Build Machine
+    p Enter Git url and rake commands to build
+    form#url(method="post", action="/url")
+    table
+      tr 
+        td 
+          label Git url:
+        td 
+          input#right(type="text",name="git_url")
+      tr
+        td 
+          label Rake Commands:
+        td 
+          input#right(type="text", name="rake")
+      tr
+        td
+          input(type="submit", value="Build")
+
+  
