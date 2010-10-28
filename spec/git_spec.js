@@ -71,7 +71,6 @@ describe('Clone inputs').
     git.clone("url","clone directory",function () {});
 
     spawn.arg.length.should().beEqual(2);
-
   });
 
 

@@ -42,7 +42,12 @@ describe("Rake params").
   it("Should run with supplied command", function () {
   rake.run("directory", "spec");
   spawnMock.args.should().beEqual("spec");
-});
+}).
+  it("Should supply multiple comamnds as array", function () {
+   rake.run("directory",["db:migrate","spec"]);
+   spawnMock.args.length.should().beEqual(2);
+   spawnMock.args[1].should().beEqual("spec");
+  });
 
 describe("Std out setup").
   it("Should setup std out data event", function () {

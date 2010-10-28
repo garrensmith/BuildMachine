@@ -8,12 +8,19 @@ var rake = require('../lib/rake');
 //create temp directory == random dir
 //clone into
 //run spec
-/*describe('Folder creation').
+describe('Folder creation').
   it("Should ..", function () {
-    var folderPath = buildServer.createTempFolderName("git://github.com/garrensmith/RoRTodo.git");
+    var folderPath = buildServer.createFolderPath("git://github.com/garrensmith/RoRTodo.git");
     
     folderPath.should().beEqual(process.cwd() + '/tmp/' + 'RoRTodo');
 
+  }).
+  it("Should create random folder Name", function () {
+    var name1 = buildServer.createFolderName();
+    var name2 = buildServer.createFolderName();
+    console.log(name1);
+    console.log(name2);
+    name1.should().notBeEqual(name2);
   });
 
 describe('Folder creation').
@@ -47,15 +54,10 @@ describe("Build code").
       methodCalled = true;
       directory.should().beEqual("directory");
     };
+    
     buildServer.runRake("directory");
-
+    
     methodCalled.should().beTrue;
   });
-*/
 
-describe("Build Server").
-  it("Should run", function () {
-    buildServer.execBuild("/Users/garren/WebDev/ToDo/");
-    //rake.run("/Users/garren/WebDev/ToDo/");
-  });
 
