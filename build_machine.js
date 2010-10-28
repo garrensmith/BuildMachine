@@ -40,6 +40,7 @@ app.get('/', function(req, res){
 
 app.post('/url',function(req,res){
   console.log(req.body.git_url);
+  res.send({ some: 'json' });
 });
 
 // Only listen on $ node app.js
