@@ -4,6 +4,7 @@ var childProcess = require('child_process');
 var buildServer = require('../lib/buildServer');
 var git = require('../lib/git'); 
 var rake = require('../lib/rake');
+var inspect = require('sys').inspect;
 
 //create temp directory == random dir
 //clone into
@@ -59,5 +60,21 @@ describe("Build code").
     
     methodCalled.should().beTrue;
   });
+
+
+describe("Event Callback").
+  it("Should emit data on new data recieved", function () {
+    var eventFired = false;
+
+    buildServer.on('data', function (data) {
+      data.msg.should().beEqual("zing bang");
+      eventFired = true;
+    });
+
+    buildServer.emit('data', {msg : "zing bang"});
+
+    eventFired.should().beTrue();
+  });
+
 
 

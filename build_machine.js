@@ -1,3 +1,6 @@
+/**
+ * Utils.
+ */
 
 var mem = process.memoryUsage();
 // every 10 seconds poll for the memory.
@@ -11,8 +14,13 @@ setInterval(function () {
  * Module dependencies.
  */
 
-var express = require('express');
-var inspect = require('sys').inspect;
+var express = require('express'),
+    buildServer = require('lib/buildServer'),
+    inspect = require('sys').inspect;
+
+buildServer.on('data', function (data) {
+  console.log("data: " + data);
+});
 
 
 var app = module.exports = express.createServer();
@@ -48,6 +56,8 @@ app.get('/', function(req, res){
 
 app.post('/url',function(req,res){
   console.log(req.body.git_url);
+  
+
   res.send({ some: 'json' });
 });
 
