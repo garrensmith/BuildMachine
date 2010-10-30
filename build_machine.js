@@ -1,4 +1,12 @@
 
+var mem = process.memoryUsage();
+// every 10 seconds poll for the memory.
+setInterval(function () {
+  mem = process.memoryUsage();
+}, 10*1000);
+
+
+
 /**
  * Module dependencies.
  */
@@ -41,6 +49,12 @@ app.get('/', function(req, res){
 app.post('/url',function(req,res){
   console.log(req.body.git_url);
   res.send({ some: 'json' });
+});
+
+app.post('/update', function(req, res) {
+  console.log("update");
+   console.log(mem.rss);
+  res.send({rss: mem.rss});
 });
 
 // Only listen on $ node app.js
