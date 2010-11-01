@@ -63,3 +63,21 @@ describe("Std out setup").
 
   });
 
+describe("Output callback").
+  it("Should call the output callback on stdout event", function () {
+    var wasCalled = false;
+    rake.run("directory","rake cmd", function () {
+      wasCalled = true;
+    });
+    
+    wasCalled.should().beTrue();
+  }).
+  it("Should call the output callback on the stderr event", function () {
+    var wasCalled = false;
+    rake.run("directory","rake cmd", function () {
+      wasCalled = true;
+    });
+    
+    wasCalled.should().beTrue();
+  });
+

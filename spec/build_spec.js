@@ -4,18 +4,11 @@ var childProcess = require('child_process');
 var buildServer = require('../lib/buildServer');
 var git = require('../lib/git'); 
 var rake = require('../lib/rake');
-var inspect = require('sys').inspect;
 
 //create temp directory == random dir
 //clone into
 //run spec
 describe('Folder creation').
-  it("Should ..", function () {
-    var folderPath = buildServer.createFolderPath("git://github.com/garrensmith/RoRTodo.git");
-    
-    folderPath.should().beEqual(process.cwd() + '/tmp/' + 'RoRTodo');
-
-  }).
   it("Should create random folder Name", function () {
     var name1 = buildServer.createFolderName();
     var name2 = buildServer.createFolderName();
@@ -76,5 +69,34 @@ describe("Event Callback").
     eventFired.should().beTrue();
   });
 
+describe("Message query").
+  it("Should load only the latest messages", function () {
+   var msg1 = {
+      time : new Date(2010,08,08,12,01),
+      msg : "msg1"
+    };
+
+   var msg2 = {
+      time : new Date(2010,08,08,12,03),
+      msg : "msg2"
+    };
+
+   var msg3 = {
+      time : new Date(2010,08,08,12,04),
+      msg : "msg3"
+    };
+
+    
+    buildServer.messages.push(msg1);
+    buildServer.messages.push(msg2);
+    buildServer.messages.push(msg3);
+
+    var latest = buildServer.query(new Date(2010,08,08,12,02));
+
+    latest.length.should().beEqual(2);
+    latest[0].msg.should().beEqual("msg2");
+    latest[1].msg.should().beEqual("msg3");
+
+  });
 
 

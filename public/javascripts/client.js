@@ -1,5 +1,9 @@
+var userInfo = {
+  lastTimeStamp = new Date();
+};
+
+
 function updateRSS () {
-  alert("rss");
   var bytes = parseInt(rss);
   if (bytes) {
     var megabytes = bytes / (1024*1024);
@@ -30,22 +34,23 @@ function longPoll (data) {
 
   //process any updates we may have
   //data will be null on the first call of longPoll
-  /*if (data && data.messages) {
+  if (data && data.messages) {
     for (var i = 0; i < data.messages.length; i++) {
       var message = data.messages[i];
 
       //track oldest message so we only request newer messages from server
-      if (message.timestamp > CONFIG.last_message_time)
-        CONFIG.last_message_time = message.timestamp;
-
+      if (message.timestamp > userInfo.last_message_time) {
+        userInfo.last_message_time = message.timestamp;
+        
+      }
       
     }
       //only after the first request for messages do we want to show who is here
     /*if (first_poll) {
       first_poll = false;
       who();
-    }
-  }*/
+    }*/
+  }
 //, data: { since: CONFIG.last_message_time, id: CONFIG.id }
 
   //make another request

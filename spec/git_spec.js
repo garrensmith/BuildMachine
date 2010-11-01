@@ -48,7 +48,7 @@ describe('Child process').
     git.clone("","", function () {});
   
     spawn.onEventName.should().beEqual('exit');
-  }).
+  });
  
 describe('Outputs').
   it("Should register for stdout event", function () {
