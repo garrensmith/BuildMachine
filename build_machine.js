@@ -15,7 +15,7 @@ setInterval(function () {
  */
 
 var express = require('express'),
-    buildServer = require('lib/buildServer'),
+    buildServer = require('./lib/buildServer'),
     inspect = require('sys').inspect;
 
 buildServer.on('data', function (data) {
@@ -54,17 +54,35 @@ app.get('/', function(req, res){
   });
 });
 
-app.post('/url',function(req,res){
-  console.log(req.body.git_url);
-  
+app.post('/url',function(req,res) {
+  //console.log(req);
+  //buildServer.execBuild("/Users/garren/WebDev/RoRToDo/", "db:migrate spec");
+  buildServer.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
+
 
   res.send({ some: 'json' });
 });
 
 app.post('/update', function(req, res) {
-  console.log("update");
-   console.log(mem.rss);
-  res.send({rss: mem.rss});
+  //console.log("update");
+  //console.log(req);
+  var latest = buildServer.query(parseInt(req.body.timestamp,10));
+  //console.dir(latest);
+  if (latest.length > 0) {
+  res.send({rss: mem.rss, timestamp: latest[latest.length -1].time , messages: latest});
+  }
+  else {
+    res.send({rss: mem.rss});
+  };
+
+});
+
+app.get('/log', function (req, res) {
+  buildServer.messages.forEach(function (msg) {
+    console.log("msg time: " + msg.time);
+    console.log("msg : " + msg.msg);
+  });
+
 });
 
 // Only listen on $ node app.js

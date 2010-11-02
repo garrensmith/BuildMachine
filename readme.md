@@ -6,9 +6,10 @@ Usage
 TODO
 =====
 
-* Complete backend process
 * Tests, Tests, Tests,
-* Front ent
+* Nice front end formatting
+* Clean up message buffer every every set number of times
+* Report end of build and status
 
 
 

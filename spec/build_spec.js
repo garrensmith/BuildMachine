@@ -1,4 +1,4 @@
-var describe = require('Spec_My_Node').describe;
+var describe = require('Jody').describe;
 var fs = require('fs');
 var childProcess = require('child_process');
 var buildServer = require('../lib/buildServer');

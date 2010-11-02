@@ -1,4 +1,4 @@
-var describe = require('spec_my_node').describe,
+var describe = require('Jody').describe,
     child_process = require('child_process'),
     inspect = require('sys').inspect;
 

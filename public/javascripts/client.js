@@ -1,5 +1,5 @@
 var userInfo = {
-  lastTimeStamp = new Date();
+  lastTimestamp :(new Date()).getTime(),
 };
 
 
@@ -10,6 +10,12 @@ function updateRSS () {
     megabytes = Math.round(megabytes*10)/10;
     $("#rss").text(megabytes.toString());
   }
+}
+
+//used to keep the most recent messages visible
+function scrollDown () {
+  window.scrollBy(0, 100000000000000000);
+  $("#buildInfo").focus();
 }
 
 
@@ -32,17 +38,19 @@ function longPoll (data) {
     updateRSS();
   }
 
+  if(data && data.timestamp) {
+    userInfo.lastTimestamp = data.timestamp;
+  }
+
   //process any updates we may have
   //data will be null on the first call of longPoll
   if (data && data.messages) {
     for (var i = 0; i < data.messages.length; i++) {
       var message = data.messages[i];
-
-      //track oldest message so we only request newer messages from server
-      if (message.timestamp > userInfo.last_message_time) {
-        userInfo.last_message_time = message.timestamp;
-        
-      }
+      message.msg = message.msg.replace(/\n/, "<br />");
+      userInfo.last_message_time = message.time;
+      $("#buildInfo").append(message.msg);
+      scrollDown();  
       
     }
       //only after the first request for messages do we want to show who is here
@@ -54,10 +62,11 @@ function longPoll (data) {
 //, data: { since: CONFIG.last_message_time, id: CONFIG.id }
 
   //make another request
-  $.ajax({ cache: false
+  /*$.ajax({ cache: false
          , type: "POST"
          , url: "/update"
          , dataType: "json"
+         , data: {timestamp : userInfo.lastTimeStamp}
                   , error: function () {
              //addMessage("", "long poll error. trying again...", new Date(), "error");
              alert('error');
@@ -72,10 +81,17 @@ function longPoll (data) {
              //how long? well, it will wait until there is another message
              //and then it will return it to us and close the connection.
              //since the connection is closed when we get data, we longPoll again
-             longPoll(data);
+             //longPoll(data);
            }
-         });
-}
+         });*/
+  
+    $.post('/update',{timestamp: userInfo.lastTimestamp} ,function (data) {
+      longPoll(data);
+
+    }, "json"
+    );
+  
+};
 
 
 $(document).ready(function() {
