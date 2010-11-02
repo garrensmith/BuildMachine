@@ -8,7 +8,7 @@ function updateRSS () {
   if (bytes) {
     var megabytes = bytes / (1024*1024);
     megabytes = Math.round(megabytes*10)/10;
-    $("#rss").text(megabytes.toString());
+    $("#rss").text("mem: " + megabytes.toString() + " megs");
   }
 }
 
@@ -18,6 +18,16 @@ function scrollDown () {
   $("#buildInfo").focus();
 }
 
+function completedBuild(code) {
+  if (code === 1) {
+    $("#result").html("Failed!").css('background-color','red');
+  }
+  else {
+    $("#result").html("Passed!");
+  }
+  
+  $("#result").show();
+}
 
 //process updates if we have any, request updates from the server,
 // and call again with response. the last part is like recursion except the call
@@ -30,6 +40,14 @@ var rss = 0;
 function longPoll (data) {
   if (transmission_errors > 2) {
     //showConnect();
+    alert("Having an issue connectiong to the server");
+    transmission_errors = 0;
+    return;
+  }
+
+  if (data && data.completed) {
+    completedBuild(data.code);
+     scrollDown();
     return;
   }
 
@@ -62,14 +80,13 @@ function longPoll (data) {
 //, data: { since: CONFIG.last_message_time, id: CONFIG.id }
 
   //make another request
-  /*$.ajax({ cache: false
+  $.ajax({ cache: false
          , type: "POST"
          , url: "/update"
          , dataType: "json"
-         , data: {timestamp : userInfo.lastTimeStamp}
-                  , error: function () {
+         , data: {timestamp: userInfo.lastTimestamp} 
+         , error: function () {
              //addMessage("", "long poll error. trying again...", new Date(), "error");
-             alert('error');
             transmission_errors += 1;
              //don't flood the servers on error, wait 10 seconds before retrying
              setTimeout(longPoll, 10*1000);
@@ -81,22 +98,24 @@ function longPoll (data) {
              //how long? well, it will wait until there is another message
              //and then it will return it to us and close the connection.
              //since the connection is closed when we get data, we longPoll again
-             //longPoll(data);
+             longPoll(data);
            }
-         });*/
+         });
   
-    $.post('/update',{timestamp: userInfo.lastTimestamp} ,function (data) {
+   /* $.post('/update',{timestamp: userInfo.lastTimestamp} ,function (data) {
       longPoll(data);
 
     }, "json"
-    );
+    );*/
   
 };
 
 
 $(document).ready(function() {
+   $("#buildInfo").val("clear");
 
   $("#build").click(function () {
+    $("#result").hide();
 
     $.post('/url',{git_url: $(".git").val(), rake : $(".rake").val()} ,function () {
       longPoll();

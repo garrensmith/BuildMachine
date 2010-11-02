@@ -55,8 +55,9 @@ app.get('/', function(req, res){
 });
 
 app.post('/url',function(req,res) {
-  //console.log(req);
   //buildServer.execBuild("/Users/garren/WebDev/RoRToDo/", "db:migrate spec");
+  buildServer.messages = [];
+  buildServer.completed = false;
   buildServer.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
 
 
@@ -64,10 +65,11 @@ app.post('/url',function(req,res) {
 });
 
 app.post('/update', function(req, res) {
-  //console.log("update");
-  //console.log(req);
+  if (buildServer.completed === true) {
+    res.send({completed : true, code : buildServer.result});
+    return;
+  }
   var latest = buildServer.query(parseInt(req.body.timestamp,10));
-  //console.dir(latest);
   if (latest.length > 0) {
   res.send({rss: mem.rss, timestamp: latest[latest.length -1].time , messages: latest});
   }

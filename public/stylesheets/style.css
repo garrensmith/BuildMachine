@@ -48,10 +48,27 @@ input {
   float: right;
   font-size: 55%;
 }
+#rss {
+  position: fixed;
+  top: 20px;
+  right: 15px;
+}
 #buildInfo {
   width: 960px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 50px;
   font-size: 10px;
+}
+#result {
+  width: 400px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: green;
+  font-size: 100px;
+  text-align: center;
+  padding-top: 60px;
+  margin-top: 40px;
+  display: none;
 }
