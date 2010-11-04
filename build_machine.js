@@ -19,10 +19,6 @@ var express = require('express'),
     inspect = require('sys').inspect,
     io = require('socket.io');
 
-buildServer.on('data', function (data) {
-  console.log("data: " + data);
-});
-
 
 var app = module.exports = express.createServer();
 
@@ -55,39 +51,6 @@ app.get('/', function(req, res){
   });
 });
 
-app.post('/url',function(req,res) {
-  //buildServer.execBuild("/Users/garren/WebDev/RoRToDo/", "db:migrate spec");
-  buildServer.messages = [];
-  buildServer.completed = false;
-  buildServer.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
-
-
-  res.send({ some: 'json' });
-});
-
-app.post('/update', function(req, res) {
-  if (buildServer.completed === true) {
-    res.send({completed : true, code : buildServer.result});
-    return;
-  }
-  var latest = buildServer.query(parseInt(req.body.timestamp,10));
-  if (latest.length > 0) {
-    res.send({rss: mem.rss, timestamp: latest[latest.length -1].time , messages: latest});
-  }
-  else {
-    res.send({rss: mem.rss});
-  };
-
-});
-
-app.get('/log', function (req, res) {
-  buildServer.messages.forEach(function (msg) {
-    console.log("msg time: " + msg.time);
-    console.log("msg : " + msg.msg);
-  });
-
-});
-
 // socket.io 
 var socket = io.listen(app); 
 socket.on('connection', function(client){ 
@@ -97,13 +60,21 @@ socket.on('connection', function(client){
     console.dir(message);
 
     if (message.git_url) {
+      buildServer.completed = false;
       buildServer.execBuild(client.sessionId ,"/Users/garren/Projects/DrivenMetrics/", "mono");
 
         buildServer.on('update', function(message) {
           //if (client.sessionId === id) {
             console.log("update ");
             console.dir(message);
-            client.send({rss: mem.rss, messages : message});
+            
+            if (buildServer.completed === true) {
+              console.log("completed " + buildServer.result);
+              client.send({rss: mem.rss, message : message, code : buildServer.result});
+            }
+            else {
+              client.send({rss: mem.rss, message : message}); 
+            }
           //}
         });
       }
