@@ -16,7 +16,8 @@ setInterval(function () {
 
 var express = require('express'),
     buildServer = require('./lib/buildServer'),
-    inspect = require('sys').inspect;
+    inspect = require('sys').inspect,
+    io = require('socket.io');
 
 buildServer.on('data', function (data) {
   console.log("data: " + data);
@@ -71,7 +72,7 @@ app.post('/update', function(req, res) {
   }
   var latest = buildServer.query(parseInt(req.body.timestamp,10));
   if (latest.length > 0) {
-  res.send({rss: mem.rss, timestamp: latest[latest.length -1].time , messages: latest});
+    res.send({rss: mem.rss, timestamp: latest[latest.length -1].time , messages: latest});
   }
   else {
     res.send({rss: mem.rss});
@@ -86,6 +87,36 @@ app.get('/log', function (req, res) {
   });
 
 });
+
+// socket.io 
+var socket = io.listen(app); 
+socket.on('connection', function(client){ 
+  // new client is here! 
+  console.dir(client, true);
+  client.on('message', function(message){ 
+    console.dir(message);
+
+    if (message.git_url) {
+      buildServer.execBuild(client.sessionId ,"/Users/garren/Projects/DrivenMetrics/", "mono");
+
+        buildServer.on('update', function(message) {
+          //if (client.sessionId === id) {
+            console.log("update ");
+            console.dir(message);
+            client.send({rss: mem.rss, messages : message});
+          //}
+        });
+      }
+
+
+      //client.send({rss: mem.rss});
+      }); 
+      client.on('disconnect', function(){ 
+        // clean up msg queue
+      }) 
+
+}); 
+
 
 // Only listen on $ node app.js
 
