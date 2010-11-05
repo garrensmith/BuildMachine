@@ -60,7 +60,8 @@ socket.on('connection', function(client){
     if (message.git_url) {
       var builder = buildServer.builder();
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
-      builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
+      //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
+      builder.execBuild(message.git_url, message.rake);
 
 
       builder.on('update', function(message) {

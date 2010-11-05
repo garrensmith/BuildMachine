@@ -6,9 +6,11 @@ Usage
 TODO
 =====
 
+* Multiple builds at same time
+* make or rake
+* check front end input
 * Tests, Tests, Tests,
 * Nice front end formatting
-* Clean up message buffer every every set number of times
 * Report end of build and status
 
 
