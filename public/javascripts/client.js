@@ -28,8 +28,8 @@ function completedBuild(code) {
 };
 
 function updateLog(message) {
-  message.msg = message.msg.replace(/\n/, "<br />");
-  $("#buildInfo").append(message.msg);
+  message = message.replace(/\n/, "<br />");
+  $("#buildInfo").append(message);
   scrollDown();  
 };
 

@@ -55,36 +55,33 @@ app.get('/', function(req, res){
 var socket = io.listen(app); 
 socket.on('connection', function(client){ 
   // new client is here! 
-  console.dir(client, true);
   client.on('message', function(message){ 
-    console.dir(message);
 
     if (message.git_url) {
-      buildServer.completed = false;
-      buildServer.execBuild(client.sessionId ,"/Users/garren/Projects/DrivenMetrics/", "mono");
-
-        buildServer.on('update', function(message) {
-          //if (client.sessionId === id) {
-            console.log("update ");
-            console.dir(message);
-            
-            if (buildServer.completed === true) {
-              console.log("completed " + buildServer.result);
-              client.send({rss: mem.rss, message : message, code : buildServer.result});
-            }
-            else {
-              client.send({rss: mem.rss, message : message}); 
-            }
-          //}
-        });
-      }
+      var builder = buildServer.builder();
+      //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
+      builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
 
 
-      //client.send({rss: mem.rss});
-      }); 
-      client.on('disconnect', function(){ 
-        // clean up msg queue
-      }) 
+      builder.on('update', function(message) {
+        console.log("update ");
+        console.dir(message);
+        client.send({rss: mem.rss, message : message}); 
+      });
+
+      builder.on('complete', function(result) {
+        client.send({rss: mem.rss, result : result});
+        client.disconnect();
+      });
+    }
+
+
+  }); 
+
+
+  client.on('disconnect', function(){ 
+    console.log('client %s disconnected', client.sessionId);
+  }) 
 
 }); 
 
