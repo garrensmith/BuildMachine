@@ -58,12 +58,13 @@ socket.on('connection', function(client){
   client.on('message', function(message){ 
 
     if (message.gitUrl) {
-      var builder = buildServer.builder();
+      console.log(message);
+      var srcBuilder = message.srcBuilder;
+      var builder = buildServer.builder(message.srcBuilder);
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
       //
       var buildCmd = message.buildCmd === "" ? undefined : message.buildCmd;
-      var buildType = message.builder;
       builder.execBuild(message.gitUrl, buildCmd);
 
 

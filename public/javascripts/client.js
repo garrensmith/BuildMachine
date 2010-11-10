@@ -50,7 +50,7 @@ $(document).ready(function() {
     var socket = new io.Socket(null, {port: 3000}); 
     socket.connect();
     socket.on('connect', function(){ 
-      socket.send({gitUrl: gitUrl, builder: $("#builder") ,buildCmd : $("#buildCmd").val()});
+      socket.send({gitUrl: gitUrl, srcBuilder: $("#srcBuilder").val() ,buildCmd : $("#buildCmd").val()});
 
     }); 
     socket.on('message', function (data) { 
