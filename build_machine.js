@@ -62,8 +62,8 @@ socket.on('connection', function(client){
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
       //
-      var buildCmd = message.buildCmd === "" ? undefined : message.#buildCmd;
-      var builder = message.builder;
+      var buildCmd = message.buildCmd === "" ? undefined : message.buildCmd;
+      var buildType = message.builder;
       builder.execBuild(message.gitUrl, buildCmd);
 
 
