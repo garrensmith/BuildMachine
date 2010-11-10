@@ -15,7 +15,6 @@ function scrollDown () {
 }
 
 function completedBuild(code) {
-  alert('code' + code);
   if (code === 1) {
     $("#result").html("Failed!").css('background-color','red');
   }
@@ -64,8 +63,8 @@ $(document).ready(function() {
           updateLog(data.message);
         }
 
-        if(data.code) {
-          completedBuild(data.code);
+        if(data.result) {
+          completedBuild(data.result);
           socket.disconnect();
         }
       }

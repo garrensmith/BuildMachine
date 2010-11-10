@@ -68,18 +68,16 @@ socket.on('connection', function(client){
 
 
       builder.on('update', function(message) {
-        console.log("update ");
-        console.dir(message);
+        //console.log("update ");
+        //console.dir(message);
         client.send({rss: mem.rss, message : message}); 
       });
 
       builder.on('complete', function(result) {
         client.send({rss: mem.rss, result : result});
-        client.disconnect();
+        //client.disconnect();
       });
     }
-
-
   }); 
 
 
