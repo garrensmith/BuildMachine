@@ -57,11 +57,14 @@ socket.on('connection', function(client){
   // new client is here! 
   client.on('message', function(message){ 
 
-    if (message.git_url) {
+    if (message.gitUrl) {
       var builder = buildServer.builder();
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
-      builder.execBuild(message.git_url, message.rake);
+      //
+      var buildCmd = message.buildCmd === "" ? undefined : message.#buildCmd;
+      var builder = message.builder;
+      builder.execBuild(message.gitUrl, buildCmd);
 
 
       builder.on('update', function(message) {

@@ -38,12 +38,20 @@ $(document).ready(function() {
   $("#buildInfo").val("clear");
 
   $("#build").click(function () {
+    var gitUrl = $("#git").val();
+
+    if (!gitUrl) {
+      alert("Please enter a git url");
+      $(".git").focus();
+      return;
+    }
+
     $("#result").hide();
     $("#buildInfo").empty();
     var socket = new io.Socket(null, {port: 3000}); 
     socket.connect();
     socket.on('connect', function(){ 
-      socket.send({git_url: $(".git").val(), rake : $(".rake").val()});
+      socket.send({gitUrl: gitUrl, builder: $("#builder") ,buildCmd : $("#buildCmd").val()});
 
     }); 
     socket.on('message', function (data) { 

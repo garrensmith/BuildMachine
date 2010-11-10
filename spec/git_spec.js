@@ -35,6 +35,7 @@ var describe = require('Jody').describe,
       return spawn;
   };
 
+
 var git = require('../lib/git');
 
 describe('Child process').
@@ -50,7 +51,7 @@ describe('Child process').
     spawn.onEventName.should().beEqual('exit');
   });
  
-describe('Outputs').
+describe('Git outputs').
   it("Should register for stdout event", function () {
      git.clone("","", "");
 
@@ -61,9 +62,9 @@ describe('Outputs').
      spawn.stderrEventName.should().beEqual('data');
   });
 
-describe('Clone inputs').
+describe('Clone arguments').
   it("Should add clone directory if specified", function () {
-    git.clone("url","clone directory","folderName", function () {});
+    git.clone("url","clone directory","folderName", function () {}, function () {});
 
     spawn.arg.should().contain("folderName");
   }).

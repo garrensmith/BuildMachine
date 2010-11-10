@@ -10,12 +10,14 @@
         td 
           label Git url:
         td 
-          input.git(type="text",name="git_url")
+          input#git_url.long(type="text",name="git_url")
       tr
         td 
-          label Rake Commands:
+          select#builder(name="build")
+            option(value="rake") Rake
+            option(value="make") Make
         td 
-          input.rake(type="text", name="rake")
+          input#buildCmd.long(type="text", name="rake")
       tr
         td
           input#build(type="button", value="Build")

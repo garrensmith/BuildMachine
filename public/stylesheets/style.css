@@ -15,6 +15,13 @@ h1 {
 input {
   font-size: 95%;
 }
+.long {
+  width: 650px;
+}
+#builder {
+  font-size: 95%;
+  width: 110px;
+}
 #seperator {
   margin: 30px;
   margin-right: 200px;
@@ -22,6 +29,7 @@ input {
 }
 .button {
   -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
   background-color: red;
   color: white;
   padding: 10px;

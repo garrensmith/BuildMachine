@@ -6,7 +6,6 @@ Usage
 TODO
 =====
 
-* Multiple builds at same time
 * make or rake
 * check front end input
 * Tests, Tests, Tests,
