@@ -51,6 +51,8 @@ app.get('/', function(req, res){
   });
 });
 
+
+
 // socket.io 
 var socket = io.listen(app); 
 socket.on('connection', function(client){ 

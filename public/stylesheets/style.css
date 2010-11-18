@@ -44,6 +44,7 @@ input {
   margin-left: 30px;
 }
 #wrapper {
+  background: url('../images/cog.jpeg') no-repeat right top;
   padding: 20px;
   width: 960px;
   -moz-border-radius: 2em;
