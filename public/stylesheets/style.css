@@ -63,7 +63,7 @@ input {
 }
 #rss {
   position: fixed;
-  top: 20px;
+  top: 50px;
   right: 15px;
 }
 #buildInfo {
