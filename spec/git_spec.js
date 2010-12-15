@@ -14,10 +14,9 @@ var url = "/Users/garren/WebDev/Jody/",
 
 describe('Git Clone').
   beforeEach(function () {
-   /* if (!path.exists("./tmp")) {
-      fs.mkdirSync("./tmp");
+    /*if (!path.exists("./tmp")) {
+      fs.mkdirSync("./tmp", 0777);
     }*/
-    //var tt = spawn('rm', ["-rf", "./tmp/testrepo"]); 
 
       
     //}
@@ -58,6 +57,9 @@ describe('Git Clone').
     atEnd(function () {
       called.should().beTrue;
     });
+  }).
+  afterAll( function () {
+    spawn('rm', ["-rf", "./tmp/testrepo"]);
   });
 
 
