@@ -15,7 +15,7 @@ setInterval(function () {
  */
 
 var express = require('express'),
-    buildServer = require('./lib/buildServer'),
+    BuildServer = require('./lib/buildServer'),
     inspect = require('sys').inspect,
     io = require('socket.io');
 
@@ -62,12 +62,12 @@ socket.on('connection', function(client){
     if (message.gitUrl) {
       console.log(message);
       var srcBuilder = message.srcBuilder;
-      var builder = buildServer.builder(message.srcBuilder);
+      var builder = new BuildServer();
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
       //
-      var buildCmd = message.buildCmd === "" ? undefined : message.buildCmd;
-      builder.execBuild(message.gitUrl, buildCmd);
+      var buildArgs = message.buildCmd === "" ? undefined : message.buildCmd;
+      builder.run(message.gitUrl, './tmp' ,buildArgs);
 
 
       builder.on('update', function(message) {
@@ -76,7 +76,12 @@ socket.on('connection', function(client){
         client.send({rss: mem.rss, message : message}); 
       });
 
-      builder.on('complete', function(result) {
+      builder.on('exit', function(code) {
+        var result = false;
+        
+        if (code == 0) {
+          result = true;
+        }
         client.send({rss: mem.rss, result : result});
         //client.disconnect();
       });
