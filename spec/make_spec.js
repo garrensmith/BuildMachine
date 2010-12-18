@@ -1,67 +1,9 @@
 var describe = require('Jody').describe,
-    spawn = require('child_process').spawn,
-    fs = require('fs'),
-    events = require('events'),
+    Make = require('../lib/make.js'),
     path = require('path');
 
+
 var dir = "./tmp/makeTest";
-
-
-var Make = function () {
-  var self = this;
-
-  events.EventEmitter.call(this);
-
-  self.runConfigure = function (directory, cb) {
-    var configExec = spawn('sh', ['./configure'],  {cwd: directory });
-
-    configExec.on('exit', function (code, signal) {
-      cb(code);
-    });
-  };
-
-  self.runMake = function (directory,makeArgs, cb) {
-    var makeExec = spawn('make', makeArgs || [], {cwd: directory }); 
-
-    makeExec.stdout.setEncoding('utf8');
-    makeExec.stdout.on('data', function (data) {
-      self.emit('update', data);
-    });
-
-    makeExec.stderr.on('data', function (data) {
-      self.emit('update', data);
-    });
-
-
-    makeExec.on('exit', function (code, signal) {
-      cb(code);
-
-    });
-
-  };
-
-  self.run = function (directory,makeArgs, cb) {
-    path.exists(directory + '/configure', function (exists) {
-
-      if (exists) {
-        self.runConfigure(directory, function () {
-          self.runMake(directory, makeArgs, cb);
-        });
-      } else {
-        self.runMake(directory, makeArgs, cb);
-      }
-
-
-    });
-
-  };
-
-};
-
-require('sys').inherits(Make, events.EventEmitter);
-
-
-
 
 
 describe('Configure').
@@ -81,17 +23,18 @@ describe('Configure').
     });
   }).
   it("Should update on progress", function (atEnd) {
-     var configureRun = false,
+     var configureData = "",
     make = new Make();
 
     make.run(dir,"", function () { });
     
-    make.on('update', function () {
+    make.on('update', function (data) {
+      configureData += data;
       
     });
 
     atEnd(function () {
-      configureRun.should().beTrue();
+      configureData.should().contain("from configure");
     });
 
   });
@@ -120,7 +63,6 @@ describe('Make').
 
 
     make.on('update', function (data) {
-      console.log(data);
       makeData = data;
     });
 
