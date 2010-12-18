@@ -36,6 +36,10 @@ function updateLog(message) {
 $(document).ready(function() {
   $("#buildInfo").val("clear");
 
+  $(".button").click( function () {
+    jQuery.facebox({div: '#usage'});
+  });
+
   $("#build").click(function () {
     var gitUrl = $("#git").val();
 
