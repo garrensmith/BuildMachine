@@ -65,23 +65,36 @@ require('sys').inherits(Make, events.EventEmitter);
 
 
 describe('Configure').
-it("Should execute configure if it exists", function (atEnd) {
-  var configureRun = false,
-  make = new Make();
+  it("Should execute configure if it exists", function (atEnd) {
+    var configureRun = false,
+    make = new Make();
 
-make.run(dir,"", function () {
-  path.exists(dir + '/test.txt', function (exists) {
-    configureRun = exists;
+    make.run(dir,"", function () {
+      path.exists(dir + '/test.txt', function (exists) {
+        configureRun = exists;
+      });
+    });
+
+
+    atEnd(function () {
+      configureRun.should().beTrue();
+    });
+  }).
+  it("Should update on progress", function (atEnd) {
+     var configureRun = false,
+    make = new Make();
+
+    make.run(dir,"", function () { });
+    
+    make.on('update', function () {
+      
+    });
+
+    atEnd(function () {
+      configureRun.should().beTrue();
+    });
+
   });
-});
-
-
-atEnd(function () {
-  configureRun.should().beTrue();
-});
-
-
-});
 
 describe('Make').
   it("Should run task", function (atEnd) {
