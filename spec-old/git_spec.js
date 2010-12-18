@@ -10,6 +10,7 @@ var url = "/Users/garren/WebDev/Jody/",
     folderLocation = "./tmp",
     folderName = "testrepo" ;
 
+//implement beforeAll and AfterAll to cleanup and setup tests
 
 describe('Git Clone').
   beforeEach(function () {
