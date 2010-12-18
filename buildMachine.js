@@ -67,23 +67,17 @@ socket.on('connection', function(client){
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
       //
       var buildArgs = message.buildCmd === "" ? undefined : message.buildCmd;
-      builder.run(message.gitUrl, './tmp' ,buildArgs);
+      builder.run(message.gitUrl, './tmp' ,[buildArgs]);
 
 
       builder.on('update', function(message) {
-        //console.log("update ");
-        //console.dir(message);
         client.send({rss: mem.rss, message : message}); 
       });
 
       builder.on('exit', function(code) {
-        var result = false;
-        
-        if (code == 0) {
-          result = true;
-        }
-        client.send({rss: mem.rss, result : result});
-        //client.disconnect();
+        console.log("exited with " + code);
+                
+        client.send({rss: mem.rss, result : (code === 0).toString() });
       });
     }
   }); 

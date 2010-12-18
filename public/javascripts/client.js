@@ -15,11 +15,11 @@ function scrollDown () {
 }
 
 function completedBuild(code) {
-  if (code === 1) {
-    $("#result").html("Failed!").css('background-color','red');
+  if (code === "false" ) {
+    $("#result").html("<h1 id=buildResult> Failed! </h1>").css('background-color','red');
   }
   else {
-    $("#result").html("Passed!");
+    $("#result").html("<h1 id=buildResult>Passed! </h1>").css('background-color','green');;
   }
 
   $("#result").show();
