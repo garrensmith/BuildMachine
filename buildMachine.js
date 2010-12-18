@@ -2,7 +2,7 @@
  * Utils.
  */
 
-VERSION = 0.1.0
+// VERSION = 0.1.0
 
 var mem = process.memoryUsage();
 // every 10 seconds poll for the memory.
@@ -63,8 +63,7 @@ socket.on('connection', function(client){
 
     if (message.gitUrl) {
       console.log(message);
-      var srcBuilder = message.srcBuilder;
-      var builder = new BuildServer();
+      var builder = new BuildServer(message.srcBuilder);
       //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
       //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
       //
