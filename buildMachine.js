@@ -2,7 +2,7 @@
  * Utils.
  */
 
-VERSION = 0.1.0
+VERSION = 0.1.0;
 
 var mem = process.memoryUsage();
 // every 10 seconds poll for the memory.
