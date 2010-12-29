@@ -2,7 +2,11 @@
  * Utils.
  */
 
+<<<<<<< HEAD
 // VERSION = 0.1.0
+=======
+VERSION = 0.1.0;
+>>>>>>> 5d15fe2ec7b6ad0dc3c32987ceb86d30f9ae41b6
 
 var mem = process.memoryUsage();
 // every 10 seconds poll for the memory.
