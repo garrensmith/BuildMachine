@@ -64,12 +64,8 @@ socket.on('connection', function(client){
     if (message.gitUrl) {
       console.log(message);
       var builder = new BuildServer(message.srcBuilder);
-      //builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
-      //builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
-      //
       var buildArgs = message.buildCmd === "" ? undefined : message.buildCmd;
-      builder.run(message.gitUrl, './tmp' ,[buildArgs]);
-
+      
 
       builder.on('update', function(message) {
         client.send({rss: mem.rss, message : message}); 
@@ -80,6 +76,9 @@ socket.on('connection', function(client){
                 
         client.send({rss: mem.rss, result : (code === 0).toString() });
       });
+
+
+      builder.run(message.gitUrl, './tmp' ,[buildArgs]);
     }
   }); 
 
@@ -97,3 +96,8 @@ if (!module.parent) {
   app.listen(3000);
   console.log("Express server listening on port %d", app.address().port)
 }
+
+
+//builder.execBuild("/Users/garren/Projects/DrivenMetrics/", "mono");
+//builder.execBuild("/Users/garren/WebDev/WorshipHub/", "db:migrate spec");
+
